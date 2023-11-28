@@ -1,6 +1,5 @@
 from insert import * 
-from parse_sn1per import *
-from parse_utils import *
+from ..parse.parse_sn1per import *
 from docx.shared import Cm
 from docx.text.run import Run
 

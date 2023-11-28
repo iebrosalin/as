@@ -1,5 +1,5 @@
 from insert import *
-from parse_utils import *
+from ..parse.parse_utils import *
 from docx.shared import Cm
 import itertools
 from docx.text.run import Run
