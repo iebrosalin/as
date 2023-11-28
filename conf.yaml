@@ -1,0 +1,11 @@
+project:
+  name: "project1"
+  output: "output"
+scan:
+  ips_file: "ips.txt"
+  domains_file: "domains.txt"
+template:
+  base_template: "template_new.docx"
+  output_file: "res.docx"
+
+
