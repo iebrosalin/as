@@ -1,3 +1,4 @@
+import copy
 from insert import *
 from ..parse.parse_utils import *
 from docx.shared import Cm
