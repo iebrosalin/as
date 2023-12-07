@@ -1,9 +1,9 @@
 import docx
 from docx.shared import Cm, Inches
 import argparse
-from parse_sn1per import *
-from generate_docx import *
-from generate_docx_utils import *
+from parse.parse_sn1per import *
+from work_docx.generate_docx import *
+from work_docx.generate_docx_utils import *
 
 def main():
     parser = argparse.ArgumentParser(description='SOC CIB generator minimal template from sn1per workspace.')

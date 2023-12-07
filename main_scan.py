@@ -1,14 +1,17 @@
-from  filesystem import *
+import argparse
+from  utils.filesystem import *
 import subprocess
 
 
 
 def main():
-    # parser = argparse.ArgumentParser(description='SOC CIB generator minimal template from sn1per workspace.')
-    # parser.add_argument('workspace', help='folder from workpace sn1per')
 
-    # args = parser.parse_args()
-    # workspace = args.workspace
+
+    parser = argparse.ArgumentParser(description='SOC CIB generator minimal template from sn1per workspace.')
+    parser.add_argument('workspace', help='folder from workpace sn1per')
+
+    args = parser.parse_args()
+    workspace = args.workspace
 
     # conf = read_yaml("conf.yaml")
 
@@ -20,7 +23,7 @@ def main():
 
 # masscan 95.181.129.248 -p0-65535 -oJ ~/masscan-altlib.json
 
-# nmap -Pn -sS -iL /home/kali/altlib/nmap_ips.txt -p $(tr '\n' , </home/kali/altlib/nmap_ports.txt)  -A  -T5 –oJ /home/kali/altlib/nmap_report.json
+# nmap -Pn -sS -iL ./nmap_ips.txt -p $(tr '\n' , <./nmap_ports.txt)  -A  -T5 –oX ./nmap_report.xml
 
 
 # #curl -s https://crt.sh/?q=%25.$TARGET > $LOOT_DIR/domains/domains-$TARGET-presorted.txt

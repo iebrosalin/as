@@ -4,6 +4,10 @@ project:
 scan:
   ips_file: "ips.txt"
   domains_file: "domains.txt"
+  uniq_fact_ips_list: "uniq_fact_ips_list.txt"
+  resolve_tz_domains_list: "resolve_tz_domains_list.txt"
+  tz_domains_list: "tz_domains_list.text"
+  
 template:
   base_template: "template_new.docx"
   output_file: "res.docx"

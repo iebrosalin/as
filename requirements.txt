@@ -1,0 +1,5 @@
+ipwhois
+python-whois
+python-docx
+PyYAML
+webtech
