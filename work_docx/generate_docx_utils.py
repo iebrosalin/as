@@ -1,9 +1,10 @@
-import copy
-from insert import *
-from ..parse.parse_utils import *
+
+from .insert import *
+from .parse_utils import *
 from docx.shared import Cm
 import itertools
 from docx.text.run import Run
+import copy
 
 def add_masscan(doc, workspace):
     
@@ -53,6 +54,65 @@ def add_masscan(doc, workspace):
             i += 1
     
     move_table_after(doc, table, "Открытые TCP-порты")
+
+def add_nmap(doc, workspace):
+    
+    data =  parse_nmap(workspace)
+
+
+    # print(subddomains_list)
+    table = doc.add_table(rows=1, cols=2)
+    table.style = "table"
+    table.autofit = False
+    table.cell(0,0).paragraphs[0].text='П/п'
+    table.cell(0,0).paragraphs[0].style='Таблица'
+    table.cell(0,0).width = Cm(3)
+    table.cell(0,1).paragraphs[0].text  = "TCP-порт"
+    table.cell(0,1).paragraphs[0].style='Таблица'
+    table.cell(0,1).width = Cm(13)
+    # table.cell(0,1).text  = "IP-адресс"
+    # table.cell(0,1).width = Cm(6.5)
+    # table.cell(0,2).text  = "Порт-TCP"
+    # table.cell(0,2).width = Cm(6.5)
+
+    i = 1   
+    for host in data ["nmaprun"]["host"]:
+        if  host.get("ports") != None:
+            row_cells = table.add_row().cells
+            row_cells[0].merge(row_cells[1])
+            ip = ""
+            #print(type(host["address"]))
+            if type(host["address"]) == list:
+                ip = host ["address"][0]["@addr"]
+            else: ip = host ["address"]["@addr"]
+
+            row_cells[0].paragraphs[0].text = ip
+            row_cells[0].paragraphs[0].style = "Таблица"
+            run = isolate_run(row_cells[0].paragraphs[0], 0, len(ip))
+            # run=row_cells[0].paragraphs[0].add_run()
+            run.font.bold=True
+
+            row_cells[0].width = Cm(16)
+            i = 1
+            # print (host["ports"])
+            for port in host["ports"] ["port"]:
+                row_cells = table.add_row().cells
+
+                row_cells[0].paragraphs[0].text = str(i)
+                row_cells[0].paragraphs[0].style = "Таблица"
+                row_cells[0].width = Cm(3)
+
+                # row_cells[1].text = ip
+                # row_cells[1].width = Cm(6.5)
+
+                row_cells[1].paragraphs[0].text = str(port["@portid"])
+                row_cells[1].paragraphs[0].style = "Таблица"
+                row_cells[1].width = Cm(13)
+                i += 1
+        else: continue 
+    
+    move_table_after(doc, table, "Открытые TCP-порты")
+
 
 def add_harvester_subdomains(doc, workspace):
 
@@ -153,6 +213,34 @@ def add_harvester_interesting_url(doc, workspace):
         i += 1
     
     move_table_after(doc, table, "Популярные URL")
+
+def add_emails(doc, workspace):
+    subddomains_list =  parse_harvester(workspace) ['emails']
+
+    # print(subddomains_list)
+    table = doc.add_table(rows=1, cols=2)
+    table.style = "table"
+    table.autofit = False
+    table.cell(0,0).paragraphs[0].text = "П/п"
+    table.cell(0,0).paragraphs[0].style='Таблица'
+    table.cell(0,0).width = Cm(3)
+    table.cell(0,1).paragraphs[0].text  = "Email"
+    table.cell(0,1).paragraphs[0].style='Таблица'
+    table.cell(0,1).width = Cm(13)
+    i = 1
+    for domain in subddomains_list:
+        row_cells = table.add_row().cells
+
+        row_cells[0].paragraphs[0].text = str(i)
+        row_cells[0].paragraphs[0].style='Таблица'
+        row_cells[0].width = Cm(3)
+
+        row_cells[1].paragraphs[0].text = domain
+        row_cells[1].paragraphs[0].style='Таблица'
+        row_cells[1].width = Cm(13)
+        i += 1
+    
+    move_table_after(doc, table, "Адреса электронной почты")
 
 def isolate_run(paragraph, start, end):
     """Return docx.text.Run object containing only `paragraph.text[start:end]`.

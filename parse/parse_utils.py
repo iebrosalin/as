@@ -1,4 +1,5 @@
 import json
+import xmltodict
 import ipaddress
 
 def parse_masscan(file_path):
@@ -66,3 +67,13 @@ def parse_harvester(file_path):
     res ['interesting_urls'] = data ['interesting_urls']
 
     return res
+
+def parse_nmap(file_path):
+    path_file= file_path + "//nmap.xml"
+    xml_file = open(path_file)
+    xml_content = xml_file.read()
+    xml_file.close()
+    xmljson = json.dumps(xmltodict.parse(xml_content), indent=4, sort_keys=True)
+    json_data = json.loads(xmljson)
+    
+    return json_data

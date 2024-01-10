@@ -15,6 +15,7 @@ def main():
     template = args.template
 
     document = docx.Document(template)
+    # add_nmap(document, workspace)
     add_masscan(document, workspace)
     add_harvester_asn(document, workspace)
     add_harvester_interesting_url(document, workspace)
